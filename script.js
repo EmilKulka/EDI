@@ -30,6 +30,8 @@ fetch('https://my.api.mockaroo.com/EDI.json?key=b01f8860')
     // dodanie tabeli
     document.getElementById("Tabela").appendChild(table);
 
+
+
     const ctx = document.getElementById('Chart1');
     
     // Roki produkcji samochodów
@@ -47,7 +49,7 @@ fetch('https://my.api.mockaroo.com/EDI.json?key=b01f8860')
       labels: lata,
       datasets: [{
         label: 'Appearences',
-        data: [0,1],
+        data: [],
         borderWidth: 2
       }]
     },
