@@ -31,25 +31,51 @@ fetch('https://my.api.mockaroo.com/EDI.json?key=b01f8860')
     document.getElementById("Tabela").appendChild(table);
 
 
-
+    // Pierwszy wykres, lata produkcji samochodów
     const ctx = document.getElementById('Chart1');
+    let years = []
     
-    // Roki produkcji samochodów
-    let lata = []
+    //Wszystkie roki produkcji samochodów bez powtórzeń, posortowane
+    let XAxis = []
     data.forEach(element =>{
-        if(!lata.includes(element.Car_Year)){
-            lata.push(element.Car_Year);
+      years.push(element.Car_Year)
+        if(!XAxis.includes(element.Car_Year)){
+            XAxis.push(element.Car_Year);
         }
-        lata.sort()
+        XAxis.sort()
     });
+  // Wszystkie lata produkcji samochodów, posortowane
+    let groupedCarYears = []
+    years.sort()
+
+    groupedCarYears = years.reduce((r, v, i, a) => {
+        if (v === a[i - 1]) {
+            r[r.length - 1].push(v);
+        } else {
+            r.push(v === a[i + 1] ? [v] : v);
+        }
+        return r;
+    }, []);
+
+  // Array ze zliczonymi powtórzeniami lat
+  let countedSameYears = []
+
+  groupedCarYears.forEach(year => {
+    if (Array.isArray(year)){
+      countedSameYears.push(year.length)
+    }
+    else {
+      countedSameYears.push(1)
+    }
+  })
 
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: lata,
+      labels: XAxis,
       datasets: [{
-        label: 'Appearences',
-        data: [],
+        label: 'The most frequent Car Years.',
+        data: countedSameYears,
         borderWidth: 2
       }]
     },
@@ -62,9 +88,57 @@ fetch('https://my.api.mockaroo.com/EDI.json?key=b01f8860')
     }
   });
 
+  // Drugi wykres, marki samochodów
+  const ctx1 = document.getElementById('Chart2');
+  
+  //Marki samochodów bez powtórzeń
+  let CarMakes = [] //bez powtórzeń
+  let CarMakesAll = [] // z powtórzeniami
+  data.forEach(element =>{
+     CarMakesAll.push(element.Car_Year)
+      if(!CarMakes.includes(element.Car_Make)){
+          CarMakes.push(element.Car_Make);
+      }
+      CarMakes.sort()
+       });
+    // Wszystkie lata produkcji samochodów, posortowane
+    let groupedCarMakes = []
+    CarMakesAll.sort()
+
+    groupedCarMakes = CarMakesAll.reduce((r, v, i, a) => {
+        if (v === a[i - 1]) {
+            r[r.length - 1].push(v);
+        } else {
+            r.push(v === a[i + 1] ? [v] : v);
+        }
+        return r;
+    }, []);
+
+  // Array ze zliczonymi powtórzeniami lat
+  let CountedCarMakes = []
+
+  groupedCarMakes.forEach(CarMakesAll => {
+    if (Array.isArray(CarMakesAll)){
+      CountedCarMakes.push(CarMakesAll.length)
+    }
+    else {
+      CountedCarMakes.push(1)
+    }
+  })
+      
+  new Chart(ctx1, {
+    type: 'pie',
+    data: {
+      labels: CarMakes,
+      datasets: [{
+        label: 'The most frequent Car Makes.',
+        data: CountedCarMakes,
+       
+      }]
+    }
+  });
+
   });
 
   
 
-
-  

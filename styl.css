@@ -54,4 +54,12 @@ table {
 
 #Chart1 {
   background-color: white;
+  margin-left: auto;
+  margin-right: 50px;
+}
+
+#Chart2 {
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
 }
