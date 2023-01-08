@@ -74,6 +74,7 @@ fetch('https://my.api.mockaroo.com/EDI.json?key=b01f8860')
     data: {
       labels: XAxis,
       datasets: [{
+        color: "white",
         label: 'The most frequent Car Years.',
         data: countedSameYears,
         borderWidth: 2
